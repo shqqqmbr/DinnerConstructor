@@ -1,5 +1,6 @@
 package ru.practicum.dinner;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -40,7 +41,7 @@ public class Main {
         String dishType = scanner.nextLine();
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
-
+        dc.addNewDish(dishType, dishName);
         // добавьте новое блюдо
     }
 
@@ -50,16 +51,24 @@ public class Main {
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         int numberOfCombos = scanner.nextInt();
         scanner.nextLine();
+        if (numberOfCombos > 0) {
+            System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+            String nextItem = scanner.nextLine();
+            ArrayList<String> types = new ArrayList<>();
 
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        String nextItem = scanner.nextLine();
-
-        //реализуйте ввод типов блюд
-        while (!nextItem.isEmpty()) {
-
+            //реализуйте ввод типов блюд
+            while (!nextItem.isEmpty()) {
+                if (dc.checkType(nextItem)) {
+                    types.add(nextItem);
+                } else {
+                    System.out.println("Такого типа блюд нет в меню!");
+                    return;
+                }
+                nextItem = scanner.nextLine();
+            }
+            dc.generateDishCombo(numberOfCombos, types);
+        } else {
+            System.out.println("Неверное количество наборов!");
         }
-
-        // сгенерируйте комбинации блюд и выведите на экран
-
     }
 }
